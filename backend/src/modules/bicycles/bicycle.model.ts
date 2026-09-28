@@ -16,6 +16,8 @@ export class Bicycle extends Model<
 
   declare brand: string;
 
+  declare brandId: number;
+
   declare model: string;
 
   declare description: string | null;
@@ -66,6 +68,14 @@ Bicycle.init(
     createdAt: DataTypes.DATE,
 
     updatedAt: DataTypes.DATE,
+
+    brandId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: { model: "brands", key: "id" },
+      onUpdate: "CASCADE",
+      onDelete: "RESTRICT",
+    }
   },
   {
     sequelize,
