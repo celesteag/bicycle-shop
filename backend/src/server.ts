@@ -3,10 +3,13 @@ import { sequelize } from "./config/database";
 import { env } from "./config/env";
 
 // Importamos los modelos para que Sequelize los registre.
+import { defineAssociations } from "./models/associations";
 import "./modules/bicycles/bicycle.model";
+import "./modules/brands/brand.model";
 
 async function startServer() {
   try {
+    defineAssociations();
 
     await sequelize.authenticate();
 

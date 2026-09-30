@@ -52,9 +52,9 @@ export class BrandController {
     try {
       const { name, createdAt, updatedAt } = req.body;
 
-      if (!name || !createdAt || updatedAt === undefined) {
+      if (!name === undefined) {
         res.status(400).json({
-          message: "name, createdAt, updatedAt son obligatorios",
+          message: "name is required",
         });
 
         return;

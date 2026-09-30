@@ -14,8 +14,6 @@ export class Bicycle extends Model<
 > {
   declare id: CreationOptional<number>;
 
-  declare brand: string;
-
   declare brandId: number;
 
   declare model: string;
@@ -39,10 +37,6 @@ Bicycle.init(
       primaryKey: true,
     },
 
-    brand: {
-      type: DataTypes.STRING(150),
-      allowNull: false,
-    },
 
     model: {
       type: DataTypes.STRING(150),

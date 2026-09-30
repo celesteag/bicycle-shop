@@ -50,18 +50,17 @@ export class BicycleController {
     next: NextFunction
   ) {
     try {
-      const { brand, brandId, model, description, price, stock } = req.body;
+      const { brandId, model, description, price, stock } = req.body;
 
-      if (!brand || !model || price === undefined) {
+      if (!brandId || !model || price === undefined) {
         res.status(400).json({
-          message: "brand, model y price son obligatorios",
+          message: "model y price son obligatorios",
         });
 
         return;
       }
 
       const bicycle = await BicycleService.create({
-        brand,
         brandId,
         model,
         description,
@@ -130,6 +129,30 @@ export class BicycleController {
 
       res.status(204).send();
 
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getEagerlyById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const id = Number(req.params.id);
+
+      // Fetch bicycle with eager loading
+      const bicycle = await BicycleService.findEagerlyById(id);
+
+      if (!bicycle) {
+        res.status(404).json({
+          message: "Bicycle not found",
+        });
+        return;
+      }
+
+      res.json(bicycle);
     } catch (error) {
       next(error);
     }

@@ -1,4 +1,5 @@
 import { Bicycle } from "./bicycle.model";
+import { Brand } from "../brands/brand.model";
 
 export class BicycleService {
 
@@ -15,7 +16,6 @@ export class BicycleService {
 
 
   static async create(data: {
-    brand: string;
     brandId: number;
     model: string;
     description?: string | null;
@@ -29,7 +29,6 @@ export class BicycleService {
   static async update(
     bicycle: Bicycle,
     data: {
-      brand?: string;
       model?: string;
       description?: string | null;
       price?: number;
@@ -42,5 +41,17 @@ export class BicycleService {
 
   static async delete(bicycle: Bicycle) {
     await bicycle.destroy();
+  }
+
+  // Executes a LEFT JOIN on the brands table using the declared association alias
+  static async findEagerlyById(id: number) {
+    return Bicycle.findByPk(id, {
+      include: [
+        {
+          model: Brand,
+          as: "brand", // Association alias defined in associations.ts
+        },
+      ],
+    });
   }
 }
