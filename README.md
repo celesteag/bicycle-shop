@@ -102,8 +102,11 @@ npm run dev
 
 Open the local URL printed by Vite, usually [http://localhost:5173](http://localhost:5173). The frontend sends API requests to the URL configured in `frontend/.env`.
 
+
+
 ## Recommended links
 
+- [Postman API Documentation](https://documenter.getpostman.com/view/15565109/2sBYB4MnGj) — interactive API reference and request examples.
 - [Express documentation](https://expressjs.com/) — routing, middleware, and backend APIs.
 - [Sequelize v6 documentation](https://sequelize.org/docs/v6/) — models and database queries.
 - [MySQL: Creating and selecting a database](https://dev.mysql.com/doc/refman/8.4/en/creating-database.html) — database setup.
