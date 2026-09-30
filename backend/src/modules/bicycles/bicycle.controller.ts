@@ -54,7 +54,7 @@ export class BicycleController {
 
       if (!brandId || !model || price === undefined) {
         res.status(400).json({
-          message: "model y price son obligatorios",
+          message: "brandId, model y price son obligatorios",
         });
 
         return;
@@ -153,6 +153,20 @@ export class BicycleController {
       }
 
       res.json(bicycle);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getAllEagerlyByFrameMaterial(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const frameMaterial = String(req.params.frameMaterial);
+      const bicycles = await BicycleService.findAllEagerlyByFrameMaterial(frameMaterial);
+      res.json(bicycles);
     } catch (error) {
       next(error);
     }

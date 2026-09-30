@@ -37,7 +37,6 @@ Bicycle.init(
       primaryKey: true,
     },
 
-
     model: {
       type: DataTypes.STRING(150),
       allowNull: false,

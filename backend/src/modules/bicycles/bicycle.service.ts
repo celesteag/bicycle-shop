@@ -1,4 +1,5 @@
 import { Bicycle } from "./bicycle.model";
+import { BicycleDetail } from "../bicycle-details/bicycle-detail.model";
 import { Brand } from "../brands/brand.model";
 
 export class BicycleService {
@@ -54,4 +55,19 @@ export class BicycleService {
       ],
     });
   }
+
+  static async findAllEagerlyByFrameMaterial(frameMaterial: string) {
+  return Bicycle.findAll({
+    include: [
+      {
+        model: BicycleDetail,
+        as: "detail", // Matches the alias configured in associations.ts
+        where: {
+          frameMaterial, // Placing inside the include filters
+        },
+      },
+    ],
+    order: [["id", "ASC"]],
+  });
+}
 }
