@@ -66,6 +66,25 @@ export class OrderController {
     }
   }
 
+  // Controller to fetch order with items and bicycles
+  static async getDetailedOrderById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const orderId = Number(req.params.id);
+      const order = await OrderService.findDetailedOrderById(orderId);
+      if (!order) {
+        res.status(404).json({ message: "Order not found" });
+        return;
+      }
+      res.json(order);
+    } catch (error) {
+      next(error);
+    }
+  }
+
 
   static async create(
     req: Request,
@@ -116,7 +135,7 @@ export class OrderController {
         return;
       }
 
-      const updatedOrder = await OrderService.update(order,req.body);
+      const updatedOrder = await OrderService.update(order, req.body);
 
       res.json(updatedOrder);
 

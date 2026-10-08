@@ -15,4 +15,7 @@ router.put("/:id", OrderController.update);
 
 router.delete("/:id", OrderController.delete);
 
+// Endpoint to get detailed order (order -> items -> bicycle)
+router.get("/detailed/:id", OrderController.getDetailedOrderById);
+
 export default router;
