@@ -1,6 +1,8 @@
 import { Bicycle } from "../modules/bicycles/bicycle.model";
 import { BicycleDetail } from "../modules/bicycle-details/bicycle-detail.model";
 import { Brand } from "../modules/brands/brand.model";
+import { Customer } from "../modules/customers/customer.model";
+import { Order } from "../modules/orders/order.model";
 
 //all model associations for Sequelize ORM
 
@@ -16,8 +18,19 @@ export function defineAssociations() {
     as: "detail", // Alias used in eager loading include
     onDelete: "CASCADE",
   });
+
   BicycleDetail.belongsTo(Bicycle, {
     foreignKey: "bicycleId",
     as: "bicycle",
+  });
+
+  // Customer 1:N Order (One customer places many orders)
+  Customer.hasMany(Order, {
+    foreignKey: "customerId",
+    as: "orders",
+  });
+  Order.belongsTo(Customer, {
+    foreignKey: "customerId",
+    as: "customer",
   });
 }
