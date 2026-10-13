@@ -4,6 +4,8 @@ import { Brand } from "../modules/brands/brand.model";
 import { Customer } from "../modules/customers/customer.model";
 import { Order } from "../modules/orders/order.model";
 import { OrderItem } from "../modules/order-items/order-item.model";
+import { Model } from "../modules/models/model.model";
+import { Model } from "sequelize";
 
 //all model associations for Sequelize ORM
 
@@ -12,13 +14,14 @@ export function defineAssociations() {
   // must be the same name than include in service.ts
   Brand.hasMany(Bicycle, { foreignKey: "brandId", as: "bicycles" });
   Bicycle.belongsTo(Brand, { foreignKey: "brandId", as: "brand" });
+
   // Direct associations with the join table OrderItem
   Order.hasMany(OrderItem, { foreignKey: "orderId", as: "items" });
   OrderItem.belongsTo(Order, { foreignKey: "orderId", as: "order" });
 
   Bicycle.hasMany(OrderItem, { foreignKey: "bicycleId", as: "orderItems" });
   OrderItem.belongsTo(Bicycle, { foreignKey: "bicycleId", as: "bicycle" });
-  
+
 
   // Bicycle 1:1 BicycleDetail (One bicycle owns one detail)
   Bicycle.hasOne(BicycleDetail, {
@@ -58,6 +61,17 @@ export function defineAssociations() {
     foreignKey: "bicycleId",
     otherKey: "orderId",
     as: "orders",
+  });
+
+  // Model 1:N Bicycle
+  Model.hasMany(Bicycle, {
+    foreignKey: "modelId",
+    as: "bicycles", // Alias to get bicycles from a model
+  });
+
+  Bicycle.belongsTo(Model, {
+    foreignKey: "modelId",
+    as: "model", // Alias to get the model from a bicycle
   });
 
 }

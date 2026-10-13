@@ -1,6 +1,8 @@
 import { Bicycle } from "./bicycle.model";
 import { BicycleDetail } from "../bicycle-details/bicycle-detail.model";
 import { Brand } from "../brands/brand.model";
+import { Model } from "../models/model.model";
+import { Op } from "sequelize";
 
 export class BicycleService {
 
@@ -57,17 +59,38 @@ export class BicycleService {
   }
 
   static async findAllEagerlyByFrameMaterial(frameMaterial: string) {
-  return Bicycle.findAll({
-    include: [
-      {
-        model: BicycleDetail,
-        as: "detail", // Matches the alias configured in associations.ts
-        where: {
-          frameMaterial, // Placing inside the include filters
+    return Bicycle.findAll({
+      include: [
+        {
+          model: BicycleDetail,
+          as: "detail", // Matches the alias configured in associations.ts
+          where: {
+            frameMaterial, // Placing inside the include filters
+          },
         },
-      },
-    ],
-    order: [["id", "ASC"]],
-  });
-}
+      ],
+      order: [["id", "ASC"]],
+    });
+  }
+
+  static async findAllWithBrandAndModel() {
+        return Bicycle.findAll({
+            include: [
+                { model: Brand, as: "brand" },      // Usa el alias definido en tus asociaciones si tienes 'as'
+                { model: Model, as: "model" }
+            ],
+            order: [["id", "ASC"]],
+        });
+    }
+
+    static async findBicyclesWithPriceGreaterThan100() {
+        return Bicycle.findAll({
+            where: {
+                price: {
+                    [Op.gt]: 100 // gt operator
+                }
+            },
+            order: [["price", "ASC"]],
+        });
+    }
 }
