@@ -84,7 +84,7 @@ export class OrderService {
             include: [
                 {
                     model: OrderItem,
-                    as: "orderItems",
+                    as: "items",
                     required: true, // Inner join
                     include: [
                         {
@@ -99,7 +99,7 @@ export class OrderService {
                             include: [
                                 {
                                     model: BicycleDetail,
-                                    as: "bicycleDetail",
+                                    as: "detail",
                                     required: true,
                                     where: {
                                         weight: {

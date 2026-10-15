@@ -17,7 +17,6 @@ export class BicycleController {
     }
   }
 
-
   static async getById(
     req: Request,
     res: Response,
@@ -43,18 +42,19 @@ export class BicycleController {
     }
   }
 
-
   static async create(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
     try {
-      const { brandId, model, description, price, stock } = req.body;
+      // Replaced 'model' with 'modelId'
+      const { brandId, modelId, description, price, stock } = req.body;
 
-      if (!brandId || !model || price === undefined) {
+      // Validate required foreign keys and price
+      if (!brandId || !modelId || price === undefined) {
         res.status(400).json({
-          message: "brandId, model y price son obligatorios",
+          message: "brandId, modelId y price son obligatorios",
         });
 
         return;
@@ -62,7 +62,7 @@ export class BicycleController {
 
       const bicycle = await BicycleService.create({
         brandId,
-        model,
+        modelId,
         description,
         price,
         stock,
@@ -74,7 +74,6 @@ export class BicycleController {
       next(error);
     }
   }
-
 
   static async update(
     req: Request,
@@ -105,7 +104,6 @@ export class BicycleController {
       next(error);
     }
   }
-
 
   static async delete(
     req: Request,

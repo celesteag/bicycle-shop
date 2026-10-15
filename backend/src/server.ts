@@ -7,6 +7,7 @@ import { defineAssociations } from "./models/associations";
 import "./modules/bicycles/bicycle.model";
 import "./modules/brands/brand.model";
 import "./modules/bicycle-details/bicycle-detail.model";
+import "./modules/models/bicycleModel.model"; // Modelo nuevo registrado
 
 async function startServer() {
   try {

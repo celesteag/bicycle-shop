@@ -3,6 +3,8 @@ import { OrderController } from "./order.controller";
 
 const router = Router();
 
+router.get("/cheap-and-heavy", OrderController.getCheapAndHeavyOrders);
+
 router.get("/", OrderController.getAll);
 
 router.get("/orders/:id", OrderController.getByCustomerId);

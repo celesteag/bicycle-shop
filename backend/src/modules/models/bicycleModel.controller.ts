@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ModelService } from "./model.service";
+import { ModelService } from "./bicycleModel.service";
 
 export class ModelController {
 
@@ -45,6 +45,22 @@ export class ModelController {
         }
     }
 
+    static async getWithBicycles(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const model = await ModelService.findByIdWithBicycles(id);
+
+      if (!model) {
+        res.status(404).json({ message: "Model not found" });
+        return;
+      }
+
+      res.json(model);
+    } catch (error) {
+      next(error);
+    }
+  }
+
 
     // POST /api/models
     static async create(
@@ -55,11 +71,10 @@ export class ModelController {
         try {
             const { name } = req.body;
 
-            if (!name === undefined) {
+            if (!name) {
                 res.status(400).json({
                     message: "Name is required",
                 });
-
                 return;
             }
 

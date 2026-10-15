@@ -170,4 +170,17 @@ export class OrderController {
       next(error);
     }
   }
+
+  static async getCheapAndHeavyOrders(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const orders = await OrderService.findOrdersWithCheapAndHeavyBicycles();
+      res.json(orders);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -16,7 +16,7 @@ export class Bicycle extends Model<
 
   declare brandId: number;
 
-  declare model: string;
+  declare modelId: number;
 
   declare description: string | null;
 
@@ -37,9 +37,12 @@ Bicycle.init(
       primaryKey: true,
     },
 
-    model: {
-      type: DataTypes.STRING(150),
-      allowNull: false,
+    modelId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+      references: { model: "models", key: "id" },
+      onUpdate: "CASCADE",
+      onDelete: "RESTRICT",
     },
 
     description: {

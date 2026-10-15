@@ -1,7 +1,7 @@
 import { Bicycle } from "./bicycle.model";
 import { BicycleDetail } from "../bicycle-details/bicycle-detail.model";
 import { Brand } from "../brands/brand.model";
-import { Model } from "../models/model.model";
+import { BicycleModel } from "../models/bicycleModel.model";
 import { Op } from "sequelize";
 
 export class BicycleService {
@@ -12,15 +12,13 @@ export class BicycleService {
     });
   }
 
-
   static async findById(id: number) {
     return Bicycle.findByPk(id);
   }
 
-
   static async create(data: {
     brandId: number;
-    model: string;
+    modelId: number;
     description?: string | null;
     price: number;
     stock: number;
@@ -28,11 +26,12 @@ export class BicycleService {
     return Bicycle.create(data);
   }
 
-
+  // Corregido: tipado actualizado a claves foráneas numéricas
   static async update(
     bicycle: Bicycle,
     data: {
-      model?: string;
+      brandId?: number;
+      modelId?: number;
       description?: string | null;
       price?: number;
       stock?: number;
@@ -40,7 +39,6 @@ export class BicycleService {
   ) {
     return bicycle.update(data);
   }
-
 
   static async delete(bicycle: Bicycle) {
     await bicycle.destroy();
@@ -73,24 +71,26 @@ export class BicycleService {
     });
   }
 
+  // Punto 2 del examen: JOIN con Brand y BicycleModel
   static async findAllWithBrandAndModel() {
-        return Bicycle.findAll({
-            include: [
-                { model: Brand, as: "brand" },      // Usa el alias definido en tus asociaciones si tienes 'as'
-                { model: Model, as: "model" }
-            ],
-            order: [["id", "ASC"]],
-        });
-    }
+    return Bicycle.findAll({
+      include: [
+        { model: Brand, as: "brand" },
+        { model: BicycleModel, as: "model" },
+      ],
+      order: [["id", "ASC"]],
+    });
+  }
 
-    static async findBicyclesWithPriceGreaterThan100() {
-        return Bicycle.findAll({
-            where: {
-                price: {
-                    [Op.gt]: 100 // gt operator
-                }
-            },
-            order: [["price", "ASC"]],
-        });
-    }
+  // Punto 3 del examen: Operador Op.gt sobre price
+  static async findBicyclesWithPriceGreaterThan100() {
+    return Bicycle.findAll({
+      where: {
+        price: {
+          [Op.gt]: 100, // gt operator
+        },
+      },
+      order: [["price", "ASC"]],
+    });
+  }
 }

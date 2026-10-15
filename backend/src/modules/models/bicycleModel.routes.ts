@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { ModelController } from "./model.controller";
+import { ModelController } from "./bicycleModel.controller";
 
 const router = Router();
+
+router.get("/:id/bicycles", ModelController.getWithBicycles);
 
 router.get("/", ModelController.getAll);
 
